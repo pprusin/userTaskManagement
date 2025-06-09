@@ -18,6 +18,11 @@ public class AzureConnection
                             "Connection Timeout=30;";
     }
 
+    public SqlConnection GetConnection()
+    {
+        return new SqlConnection(_connectionString);
+    }
+
     public void TestConnection()
     {
         try
@@ -33,4 +38,3 @@ public class AzureConnection
         }
     }
 }
-
