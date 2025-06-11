@@ -1,0 +1,31 @@
+Projekt to aplikacja konsolowa w języku C#, która umożliwia tworzenie, przeglądanie, zarządzanie i wyszukiwanie zadań przypisanych użytkownikom. Dane przechowywane są w bazie danych SQL (np. Azure SQL), a komunikacja odbywa się przez ADO.NET (klasa SqlConnection, SqlCommand).
+
+Funkcje główne:
+
+Rejestracja i logowanie użytkowników
+
+Dodawanie nowego zadania z opcjonalnym przypisaniem użytkownika i datą wykonania
+
+Wyświetlanie wszystkich zadań w czytelnej tabeli
+
+Zmiana statusu zadania (cykl: NOWE → W TOKU → ZAKOŃCZONE)
+
+Wysyłanie powiadomienia mailowego przy utworzeniu zadania
+
+Wyszukiwanie zadań według statusu, ID użytkownika lub frazy w tytule/opisie
+
+Struktura projektu:
+
+Program.cs – menu logowania i obsługa pętli głównej po zalogowaniu
+
+Services/TaskService.cs – logika dodawania, edycji, wyszukiwania zadań
+
+Services/AuthService.cs – rejestracja i logowanie użytkowników (nie pokazano tu)
+
+Services/EmailSender.cs – wysyłka maili przez SMTP (np. Gmail)
+
+Models/User.cs – definicja obiektu użytkownika
+
+AzureConnection.cs – konfiguracja połączenia z bazą danych
+
+Każda funkcja zaprojektowana jest zgodnie z zasadą: wejście danych z Console.ReadLine() → sprawdzenie/parsowanie → SQL → wynik na Console.WriteLine().

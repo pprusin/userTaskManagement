@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("programowanie-zaawansowane")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4074fa9720f5d7eae529623b3f744e1a9e7aca69")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+bbd7b4e0a80b39d352dda0ea36df2117fb6986e4")]
 [assembly: System.Reflection.AssemblyProductAttribute("programowanie-zaawansowane")]
 [assembly: System.Reflection.AssemblyTitleAttribute("programowanie-zaawansowane")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
