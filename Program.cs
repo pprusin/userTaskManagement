@@ -49,8 +49,10 @@ class Program
             Console.WriteLine("\n=== ZALOGOWANY ===");
             Console.WriteLine("1. ➕ Dodaj zadanie");
             Console.WriteLine("2. 📋 Wyświetl zadania");
-            Console.WriteLine("3. 🚪 Wyloguj");
-            Console.Write("Wybierz opcję (1-3): ");
+            Console.WriteLine("3. 🔄 Zmień status zadania");
+            Console.WriteLine("4. 🔍 Wyszukaj zadania");
+            Console.WriteLine("5. 🚪 Wyloguj");
+            Console.Write("Wybierz opcję (1-4): ");
             string option = Console.ReadLine();
 
             switch (option)
@@ -62,6 +64,12 @@ class Program
                     taskService.ShowTasks();
                     break;
                 case "3":
+                    taskService.EditTaskStatus();
+                    break;
+                case "4":
+                    taskService.SearchTasks();
+                    break;
+                case "5":
                     Console.WriteLine("✅ Wylogowano.");
                     continueWorking = false;
                     break;
