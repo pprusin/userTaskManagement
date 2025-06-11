@@ -5,9 +5,11 @@ class Program
 {
     static void Main()
     {
+        // Inicjalizowanie polaczenia i test polaczenia
         var db = new AzureConnection();
         db.TestConnection();
 
+        // Inicjalizacja serwisu logowania
         var auth = new AuthService();
         var isLogged = false;
         User currentUser = null;
@@ -29,7 +31,7 @@ class Program
                     auth.Register();
                     break;
                 case "2":
-                    currentUser = auth.LoginAndReturnUser();
+                    currentUser = auth.LoginAndReturnUser(); 
                     isLogged = currentUser != null;
                     break;
                 case "3":
@@ -41,8 +43,9 @@ class Program
             }
         }
 
-        var taskService = new TaskService();
+        var taskService = new TaskService(); // Serwis do obsługi zadań
         bool continueWorking = true;
+
 
         while (continueWorking)
         {
@@ -52,7 +55,7 @@ class Program
             Console.WriteLine("3. 🔄 Zmień status zadania");
             Console.WriteLine("4. 🔍 Wyszukaj zadania");
             Console.WriteLine("5. 🚪 Wyloguj");
-            Console.Write("Wybierz opcję (1-4): ");
+            Console.Write("Wybierz opcję (1-5): ");
             string option = Console.ReadLine();
 
             switch (option)
