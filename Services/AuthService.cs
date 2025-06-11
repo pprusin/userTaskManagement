@@ -24,7 +24,6 @@ public class AuthService
         Console.Write("📧 Podaj e-mail (opcjonalnie): ");
         string email = Console.ReadLine();
 
-        // Sprawdzenie, czy login już istnieje
         using SqlConnection conn = _connection.GetConnection();
         conn.Open();
 
@@ -41,7 +40,10 @@ public class AuthService
 
         string hashedPassword = HashPassword(password);
 
-        string insertQuery = "INSERT INTO dbo.userIdentity (userLogin, userPassword, userEmail) VALUES (@login, @password, @email)";
+        string insertQuery = @"
+            INSERT INTO dbo.userIdentity (userLogin, userPassword, userEmail)
+            VALUES (@login, @password, @email)";
+
         using SqlCommand insertCmd = new SqlCommand(insertQuery, conn);
         insertCmd.Parameters.AddWithValue("@login", login);
         insertCmd.Parameters.AddWithValue("@password", hashedPassword);
@@ -52,7 +54,46 @@ public class AuthService
         Console.WriteLine("✅ Rejestracja zakończona sukcesem!");
     }
 
-    // Pomocnicza funkcja do wczytania hasła bez wyświetlania
+    public User LoginAndReturnUser()
+    {
+        Console.Write("🔑 Login: ");
+        string login = Console.ReadLine();
+
+        Console.Write("🔑 Hasło: ");
+        string password = ReadPassword();
+
+        using SqlConnection conn = _connection.GetConnection();
+        conn.Open();
+
+        string query = "SELECT userId, userPassword, userEmail FROM dbo.userIdentity WHERE userLogin = @login";
+        using SqlCommand cmd = new(query, conn);
+        cmd.Parameters.AddWithValue("@login", login);
+
+        using SqlDataReader reader = cmd.ExecuteReader();
+        if (reader.Read())
+        {
+            string storedHash = reader.GetString(1);
+            string inputHash = HashPassword(password, storedHash);
+
+            if (storedHash == inputHash)
+            {
+                Console.WriteLine("✅ Logowanie udane!");
+
+                return new User
+                {
+                    UserId = reader.GetInt32(0),
+                    Login = login,
+                    PasswordHash = storedHash,
+                    Email = reader.IsDBNull(2) ? null : reader.GetString(2)
+                };
+            }
+        }
+
+        Console.WriteLine("❌ Logowanie nieudane.");
+        return null;
+    }
+
+
     private string ReadPassword()
     {
         StringBuilder password = new StringBuilder();
@@ -76,7 +117,6 @@ public class AuthService
         return password.ToString();
     }
 
-    // Hashowanie hasła z użyciem SHA256 + salt
     private string HashPassword(string password)
     {
         byte[] salt = RandomNumberGenerator.GetBytes(16);
@@ -88,5 +128,21 @@ public class AuthService
         Array.Copy(hash, 0, hashBytes, 16, 32);
 
         return Convert.ToBase64String(hashBytes);
+    }
+
+    private string HashPassword(string password, string storedHash)
+    {
+        byte[] hashBytes = Convert.FromBase64String(storedHash);
+        byte[] salt = new byte[16];
+        Array.Copy(hashBytes, 0, salt, 0, 16);
+
+        var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 100_000, HashAlgorithmName.SHA256);
+        byte[] hash = pbkdf2.GetBytes(32);
+
+        byte[] combinedHash = new byte[48];
+        Array.Copy(salt, 0, combinedHash, 0, 16);
+        Array.Copy(hash, 0, combinedHash, 16, 32);
+
+        return Convert.ToBase64String(combinedHash);
     }
 }
