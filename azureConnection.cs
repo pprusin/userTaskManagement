@@ -7,7 +7,7 @@ public class AzureConnection
 
     public AzureConnection()
     {
-        _connectionString = "Server=tcp:projekty-prod.database.windows.net,1433;" +
+        _connectionString = "Server=;" + Environment.GetEnvironmentVariable("SERVER") + ";" +
                             "Initial Catalog=userTaskManagement;" +
                             "Persist Security Info=False;" +
                             "User ID=" + Environment.GetEnvironmentVariable("USER") + ";" +
