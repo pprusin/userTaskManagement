@@ -7,7 +7,7 @@ public class AzureConnection
 
     public AzureConnection()
     {
-        _connectionString = "Server=;" + Environment.GetEnvironmentVariable("SERVER") + ";" +
+        _connectionString = "Server=" + Environment.GetEnvironmentVariable("SERVER") + ";" +
                             "Initial Catalog=userTaskManagement;" +
                             "Persist Security Info=False;" +
                             "User ID=" + Environment.GetEnvironmentVariable("USER") + ";" +
